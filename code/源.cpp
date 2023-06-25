@@ -87,7 +87,7 @@ void uDFS(int n) //¼ôÖ¦¡ª¡ª»ØËÝ
 			{
 				matrix_2[x][y] = i;
 				uDFS(n + 1);
-				if (sign == 2) return; 
+				if (sign == 1) return; 
 				matrix_2[x][y] = 0;
 			}
 		}
@@ -106,6 +106,7 @@ void unique(int problem_matrix[9][9]) {
 		for (int i = 0;i < 9;i++) {
 			for (int j = 0;j < 9;j++) {
 				if (matrix_2[i][j] != matrix[i][j]) {
+					cout << "dd";
 					problem_matrix[i][j] = matrix[i][j];
 					unique(problem_matrix);
 				}

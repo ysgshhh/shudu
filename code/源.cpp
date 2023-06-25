@@ -8,6 +8,7 @@
 #include<fstream>
 #include<ctime>
 #include<random>
+#include<cstring>
 using namespace std;
 int matrix[9][9];
 bool sign = 0;
@@ -72,11 +73,6 @@ void init(int n) //剪枝——回溯
 	}
 	int x = n / 9;
 	int y = n % 9;
-	for (int i = 0;i < 9;i++) {
-		for (int j = 0;j < 9;j++) {
-			//matrix[i][j] = 0;
-		}
-	}
 	random_device rd;
 	mt19937  r_eng(rd());
 	int ran = r_eng();
@@ -91,6 +87,7 @@ void init(int n) //剪枝——回溯
 			matrix[x][y] = 0;
 		}
 	}
+
 }
 
 
@@ -114,12 +111,25 @@ void selectBlank(int nums, int matrix[9][9])
 
 int main()
 {
-	init(0);
-	for (int i = 0;i < 9;i++)
-	{
-		for (int j = 0;j < 9;j++) {
-			cout << matrix[i][j] << " ";
+	int num = 10;
+	int co = num;
+	ofstream out;
+	out.open("final.txt");
+	out << num<<endl;
+	while (num) {
+		memset(matrix, 0, sizeof(matrix));
+		sign = 0;
+		init(0);
+		for (int i = 0;i < 9;i++)
+		{
+			for (int j = 0;j < 9;j++) {
+				out << matrix[i][j] << " ";
+			}
+			out << endl;
 		}
-		cout << endl;
+		out << endl;
+		num--;
 	}
+	cout << "成功生成" << co << "个终盘数独！" << endl;
+	
 }

@@ -9,6 +9,7 @@
 #include<ctime>
 #include<random>
 #include<cstring>
+#include<string>
 using namespace std;
 int matrix[9][9];
 bool sign = 0;
@@ -89,33 +90,11 @@ void init(int n) //剪枝——回溯
 	}
 
 }
-
-
-void selectBlank(int nums, int matrix[9][9])
-{
-	srand(time(NULL));
-	while (nums)
-	{
-		int row = rand() % 9;
-		int col = rand() % 9;
-		if (matrix[row][col] != '.')
-		{
-			matrix[row][col] = '.';
-			nums--;
-		}
-	}
-}
-
-
-
-
-int main()
-{
-	int num = 10;
+void generate_final(int num) {
 	int co = num;
 	ofstream out;
 	out.open("final.txt");
-	out << num<<endl;
+	out << num << endl;
 	while (num) {
 		memset(matrix, 0, sizeof(matrix));
 		sign = 0;
@@ -131,5 +110,80 @@ int main()
 		num--;
 	}
 	cout << "成功生成" << co << "个终盘数独！" << endl;
+}
+
+void selectBlank(int nums, int matrix[9][9])
+{
+	random_device rd;
+	mt19937  r_eng(rd());
+	int ran = r_eng();
+	while (nums)
+	{
+		int row = r_eng() % 9;
+		row = abs(row);
+		int col = r_eng() % 9;
+		col = abs(col);
+		if (matrix[row][col] != 0)
+		{
+			matrix[row][col] = 0;
+			nums--;
+		}
+	}
+}
+
+void generate_game(int n,int blank=20) {
+	ifstream in;
+	in.open("final.txt");
+	ofstream out;
+	out.open("game.txt");
+	out << n<<endl;
+	int num;
+	in >> num;
+	int co = num;
+	int matrix[9][9];
+	int log = n;
+	while (n > 0) {
+		if (num==0) {
+			in.seekg(0, in.beg);
+			in >> co;
+			num = co;
+		}
+		for (int i = 0;i < 9;i++) {
+			for (int j = 0;j < 9;j++) {
+				in >> matrix[i][j];
+			}
+		}
+		
+		selectBlank(blank, matrix);
+		for (int i = 0;i < 9;i++) {
+			for (int j = 0;j < 9;j++) {
+				out<<matrix[i][j]<<" ";
+			}
+			out << endl;
+		}
+		out << endl;
+		n--;
+		num--;
+	}
+	cout << "生成了" << log << "个数独游戏,挖空数为" << blank<<endl;
+}
+
+
+int main()
+{
+/***************************
+*		生成终盘数独
+*		存入final.txt
+***************************/
+	generate_final(11);
+	string instr;
+	//getline(cin, instr);
 	
+
+
+/***************************
+*		产生数独游戏
+*		存入game.txt
+****************************/
+	generate_game(300);
 }

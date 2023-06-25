@@ -87,7 +87,7 @@ void uDFS(int n) //¼ôÖ¦¡ª¡ª»ØËÝ
 			{
 				matrix_2[x][y] = i;
 				uDFS(n + 1);
-				if (sign == 1) return; 
+				if (sign == 2) return; 
 				matrix_2[x][y] = 0;
 			}
 		}
@@ -137,6 +137,7 @@ void gen_unique(int n) {
 			}
 		}
 		DFS(0);
+		sign = 0;
 		unique(problem_matrix);
 		for (int i = 0;i < 9;i++) {
 			for (int j = 0;j < 9;j++) {

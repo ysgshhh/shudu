@@ -57,11 +57,10 @@ void DFS(int n) //¼ôÖ¦¡ª¡ª»ØËÝ
 			{
 				matrix[x][y] = i;
 				DFS(n + 1);
-				if (sign == 1)	return;
+				if (sign == 1) return;
 				matrix[x][y] = 0;
 			}
 		}
-
 	}
 }
 
@@ -210,6 +209,7 @@ void Solute(string file) {
 	out << num<<endl;
 	int cur;
 	while (num) {
+
 		for (int i = 0;i < 9;i++) {
 			for (int j = 0;j < 9;j++) {
 				in >> cur;
@@ -217,7 +217,9 @@ void Solute(string file) {
 				cout << num<<" ";
 			}
 		}
+		sign = 0;
 		DFS(0);
+		
 		for (int i = 0;i < 9;i++) {
 			for (int j = 0;j < 9;j++) {
 				out << matrix[i][j] << " ";

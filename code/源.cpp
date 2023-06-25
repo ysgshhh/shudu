@@ -116,7 +116,7 @@ void unique(int problem_matrix[9][9]) {
 }
 
 void gen_unique(int n) {
-	//generate_game(n, 55);
+	generate_game(n, 55);
 	ifstream in;
 	ofstream out;
 	in.open("game.txt");
@@ -260,7 +260,7 @@ void generate_game(int n,int blank=20) {
 		n--;
 		num--;
 	}
-	cout << "生成了" << log << "个数独游戏,挖空数为" << blank<<endl;
+	
 }
 
 void gen_difficulty(int n, int level) {
@@ -281,7 +281,6 @@ void gen_difficulty(int n, int level) {
 		blank = blank % 15 + 45;
 		generate_game(n, blank);
 	}
-	cout << "成功生成" << n << "个难度为" << level << "的数独游戏" << endl;
 }
 
 void Solute(string file) {
@@ -358,7 +357,6 @@ int main()
 	else if (instr[1] == "-n" && instr[3] == "-u")op = 5;
 	switch (op) {
 	case Final:
-
 		generate_final(operand1);
 		break;
 	case Solution:
@@ -366,23 +364,22 @@ int main()
 		break;
 	case Gen_num:
 		generate_game(operand1);
+		cout << "生成了" << operand1 << "个数独游戏,挖空数为" << 20 << endl;
 		break;
 	case Gen_difficulty:
 		gen_difficulty(operand1, operand2);
+		cout << "生成了" << operand1 << "个数独游戏,难度为" << operand2 << endl;
 		break;
 	case Gen_blank:
 		generate_game(operand1, operand2);
+		cout << "生成了" << operand1 << "个数独游戏,挖空数为" << operand2 << endl;
 		break;
 	case Gen_unique:
 		gen_unique(operand1);
+		cout << "生成了" << operand1 << "个具有唯一解的数独游戏"<< endl;
 		break;
 	default:
 		cout << "请输入正确的指令！";
 		exit(0);
 	}
-	
-	
-
-
-
 }

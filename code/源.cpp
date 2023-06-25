@@ -13,9 +13,10 @@
 #include<sstream>
 using namespace std;
 int matrix[9][9];
-bool sign = 0;
+int matrix_2[9][9];
+int sign = 0;
 int n;
-
+void generate_game(int,int);
 
 bool checking(int matrix[9][9],int value, int x, int y)
 {
@@ -53,14 +54,97 @@ void DFS(int n) //剪枝——回溯
 	{
 		for (int i = 1;i <= 9;i++)
 		{
-			if (checking(matrix,i, x, y))
+			if (checking(matrix, i, x, y))
 			{
 				matrix[x][y] = i;
 				DFS(n + 1);
-				if (sign == 1) return;
+				if (sign ==1) return;
 				matrix[x][y] = 0;
 			}
 		}
+	}
+}
+
+void uDFS(int n) //剪枝——回溯
+{
+	if (n >= 81&&sign==0)
+	{
+		sign = 1;
+		return;
+	}
+	else if (n >= 81 && sign == 1) {
+		sign = 2;
+		return;
+	}
+	int x = n / 9;
+	int y = n % 9;
+	if (matrix_2[x][y] != 0)uDFS(n + 1);
+	else
+	{
+		for (int i = 1;i <= 9;i++)
+		{
+			if (checking(matrix_2, i, x, y))
+			{
+				matrix_2[x][y] = i;
+				uDFS(n + 1);
+				if (sign == 2) return; 
+				matrix_2[x][y] = 0;
+			}
+		}
+	}
+}
+
+void unique(int problem_matrix[9][9]) {
+	for (int i = 0;i < 9;i++) {
+		for (int j = 0;j < 9;j++) {
+			matrix_2[i][j] = problem_matrix[i][j];
+		}
+	}
+	uDFS(0);
+	if (sign == 1) return;
+	else if (sign == 2) {
+		for (int i = 0;i < 9;i++) {
+			for (int j = 0;j < 9;j++) {
+				if (matrix_2[i][j] != matrix[i][j]) {
+					problem_matrix[i][j] = matrix[i][j];
+					unique(problem_matrix);
+				}
+			}
+		}
+	}
+}
+
+void gen_unique(int n) {
+	//generate_game(n, 55);
+	ifstream in;
+	ofstream out;
+	in.open("game.txt");
+	out.open("unique_game.txt");
+	int num;
+	in >> num;
+	out << num<<endl;
+	while (num) {
+		int problem_matrix[9][9];
+		for (int i = 0;i < 9;i++) {
+			for (int j = 0;j < 9;j++) {
+				in >> problem_matrix[i][j];
+			}
+		}
+		for (int i = 0;i < 9;i++) {
+			for (int j = 0;j < 9;j++) {
+				matrix[i][j] = problem_matrix[i][j];
+			}
+		}
+		DFS(0);
+		unique(problem_matrix);
+		for (int i = 0;i < 9;i++) {
+			for (int j = 0;j < 9;j++) {
+				out<< problem_matrix[i][j]<<" ";
+			}
+			out << endl;
+		}
+		out << endl;
+		num--;
 	}
 }
 
@@ -202,7 +286,7 @@ void Solute(string file) {
 	ifstream in;
 	in.open(file);
 	ofstream out;
-	out.open("sudoku.txt");
+	out.open("sudoku2.txt");
 	int num;
 	in >> num;
 	int co = num;
@@ -214,11 +298,11 @@ void Solute(string file) {
 			for (int j = 0;j < 9;j++) {
 				in >> cur;
 				matrix[i][j] = cur;
-				cout << num<<" ";
+				//cout << num<<" ";
 			}
 		}
 		sign = 0;
-		DFS(0);
+		uDFS(0);
 		
 		for (int i = 0;i < 9;i++) {
 			for (int j = 0;j < 9;j++) {
@@ -288,6 +372,7 @@ int main()
 		generate_game(operand1, operand2);
 		break;
 	case Gen_unique:
+		gen_unique(operand1);
 		break;
 	default:
 		cout << "请输入正确的指令！";

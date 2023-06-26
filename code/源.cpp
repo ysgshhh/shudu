@@ -19,6 +19,7 @@ int n;
 void generate_game(int,int);
 
 bool checking(int matrix[9][9],int value, int x, int y)
+//判断该格子是否可以填入value这个数
 {
 	for (int i = 0;i < 9;i++)
 	{
@@ -40,7 +41,8 @@ bool checking(int matrix[9][9],int value, int x, int y)
 	return true;
 }
 
-void DFS(int n) //剪枝——回溯
+void DFS(int n)
+//剪枝——回溯，递归进行求解数独
 {
 	if (n >= 81)
 	{
@@ -65,7 +67,8 @@ void DFS(int n) //剪枝——回溯
 	}
 }
 
-void uDFS(int n) //剪枝——回溯
+void uDFS(int n) 
+//如果没有唯一解，则返回和第一个解不一样的解
 {
 	if (n >= 81&&sign==0)
 	{
@@ -95,6 +98,7 @@ void uDFS(int n) //剪枝——回溯
 }
 
 void unique(int problem_matrix[9][9]) {
+	//对不是唯一解的数独进行更新，使其变为唯一解
 	for (int i = 0;i < 9;i++) {
 		for (int j = 0;j < 9;j++) {
 			matrix_2[i][j] = problem_matrix[i][j];
@@ -106,7 +110,7 @@ void unique(int problem_matrix[9][9]) {
 		for (int i = 0;i < 9;i++) {
 			for (int j = 0;j < 9;j++) {
 				if (matrix_2[i][j] != matrix[i][j]) {
-					cout << "dd";
+					//cout << "dd";
 					problem_matrix[i][j] = matrix[i][j];
 					unique(problem_matrix);
 				}
@@ -116,6 +120,7 @@ void unique(int problem_matrix[9][9]) {
 }
 
 void gen_unique(int n) {
+	//产生唯一解数独
 	generate_game(n, 55);
 	ifstream in;
 	ofstream out;
@@ -150,9 +155,10 @@ void gen_unique(int n) {
 	}
 }
 
-void init(int n) //剪枝——回溯
+void init(int n) 
+//生成终盘数独
 {
-	srand(time(0));
+	//srand(time(0));
 	if (n >= 81)
 	{
 		sign = 1;
@@ -204,6 +210,7 @@ void generate_final(int num) {
 }
 
 void selectBlank(int nums, int matrix[9][9])
+//进行挖空
 {
 	random_device rd;
 	mt19937  r_eng(rd());
@@ -227,6 +234,7 @@ void selectBlank(int nums, int matrix[9][9])
 *		存入game.txt
 ****************************/
 void generate_game(int n,int blank=20) {
+	//产生数独
 	ifstream in;
 	in.open("final.txt");
 	ofstream out;
@@ -264,6 +272,7 @@ void generate_game(int n,int blank=20) {
 }
 
 void gen_difficulty(int n, int level) {
+	//根据难度产生数独
 	int blank;
 	random_device rd;
 	mt19937  r_eng(rd());
@@ -284,10 +293,11 @@ void gen_difficulty(int n, int level) {
 }
 
 void Solute(string file) {
+	//求解数独
 	ifstream in;
 	in.open(file);
 	ofstream out;
-	out.open("sudoku2.txt");
+	out.open("sudoku.txt");
 	int num;
 	in >> num;
 	int co = num;
@@ -361,6 +371,7 @@ int main()
 		break;
 	case Solution:
 		Solute(file);
+		cout << "已经对" << file << "中的文件进行求解，结果存放在sudoku.txt中";
 		break;
 	case Gen_num:
 		generate_game(operand1);
@@ -376,7 +387,7 @@ int main()
 		break;
 	case Gen_unique:
 		gen_unique(operand1);
-		cout << "生成了" << operand1 << "个具有唯一解的数独游戏"<< endl;
+		cout << "生成了" << operand1 << "个具有唯一解的数独游戏，结果存放在unique_game.txt中"<< endl;
 		break;
 	default:
 		cout << "请输入正确的指令！";

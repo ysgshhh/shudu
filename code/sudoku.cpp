@@ -11,6 +11,8 @@
 #include<cstring>
 #include<string>
 #include<sstream>
+#include<getopt.h>
+#include<unistd.h>
 using namespace std;
 int matrix[9][9];
 int matrix_2[9][9];
@@ -313,7 +315,7 @@ void Solute(string file) {
 			}
 		}
 		sign = 0;
-		DFS(0);
+		uDFS(0);
 		
 		for (int i = 0;i < 9;i++) {
 			for (int j = 0;j < 9;j++) {
@@ -327,44 +329,53 @@ void Solute(string file) {
 }
 
 
-int main()
+int main(int argc, char* argv[])
 {
-	cout << "指令介绍："<<endl;
-	cout << "-c\t生成终盘数独" << endl << "-s\t求解数独" << endl << "-n\t生成数独游戏"<<endl;
-	cout << "-m\t生成游戏的难度" << endl << "-r\t生成游戏的挖空数量" << endl << "-u\t生成唯一解的游戏"<<endl;
-	cout << "请输入指令:" << endl;
-	/***************************
-	*		指令输入
-	*		与指令解析
-	***************************/
-	string a;
-	string instr[5];
-	int pos;
-	getline(cin, a);
-	int num = 0;
-	while (a.find(" ") < 20) {
-		pos = a.find(" ");
-		instr[num] = a.substr(0, pos);
-		a = a.substr(pos + 1, size(a));
-		num++;
-	}
-	instr[num] = a;
+	enum { Final, Solution, Gen_num, Gen_difficulty, Gen_blank, Gen_unique };
+	int op = -1;
+	int opt;
+
+	string file;
 	int operand1;
 	int operand2;
-	string file;
-	stringstream ss,ss2;
-	ss << instr[2];
-	ss >> operand1;
-	ss2 << instr[4];
-	ss2 >> operand2;
-	enum{Final,Solution,Gen_num,Gen_difficulty,Gen_blank,Gen_unique};
-	int op=-1;
-	if (instr[1] == "-c") op = 0;
-	else if (instr[1] == "-s") { op = 1;file = instr[2]; }
-	else if (instr[1] == "-n" && instr[3] == "")op = 2;
-	else if (instr[1] == "-n" && instr[3] == "-m")op = 3;
-	else if (instr[1] == "-n" && instr[3] == "-r")op = 4;
-	else if (instr[1] == "-n" && instr[3] == "-u")op = 5;
+
+	while ((opt = getopt(argc, argv, "c::s:n::m:ur:")) != -1)
+	{
+		switch (opt)
+		{
+
+		case 'c':
+			op=0;
+			operand1=atoi(optarg);
+			break;
+
+		case 's':
+            op = 1;
+			file = optarg;
+			break;
+
+		case 'n':
+			op=2;
+			operand1=atoi(optarg);
+			break;
+		case 'm':
+            op=3;
+			operand2=atoi(optarg);
+			break;
+		case 'r':
+	        op=4;
+			operand2=atoi(optarg);
+			break;
+		case 'u':
+			op=5;
+			break;
+		default:
+			cout << "指令介绍："<<endl;
+			cout << "-c\t生成终盘数独" << endl << "-s\t求解数独" << endl << "-n\t生成数独游戏"<<endl;
+			cout << "-m\t生成游戏的难度" << endl << "-r\t生成游戏的挖空数量" << endl << "-u\t生成唯一解的游戏"<<endl;
+			cout << "请输入指令:" << endl;
+			break;
+		}
 	switch (op) {
 	case Final:
 		generate_final(operand1);
@@ -393,4 +404,12 @@ int main()
 		cout << "请输入正确的指令！";
 		exit(0);
 	}
+
+	}
+
+
+
+
+
+	return 0;
 }

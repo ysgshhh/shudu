@@ -11,6 +11,7 @@
 #include<cstring>
 #include<string>
 #include<sstream>
+#include<getopt.h>
 using namespace std;
 int matrix[9][9];
 int matrix_2[9][9];
@@ -19,7 +20,7 @@ int n;
 void generate_game(int,int);
 
 bool checking(int matrix[9][9],int value, int x, int y)
-//ÅĞ¶Ï¸Ã¸ñ×ÓÊÇ·ñ¿ÉÒÔÌîÈëvalueÕâ¸öÊı
+//åˆ¤æ–­è¯¥æ ¼å­æ˜¯å¦å¯ä»¥å¡«å…¥valueè¿™ä¸ªæ•°
 {
 	for (int i = 0;i < 9;i++)
 	{
@@ -31,7 +32,7 @@ bool checking(int matrix[9][9],int value, int x, int y)
 	}
 	int x_3 = (x / 3) * 3;
 	int y_3 = (y / 3) * 3;
-	for (int i = x_3;i < x_3 + 3;i++)  //checking3*3¹¬ÄÚ
+	for (int i = x_3;i < x_3 + 3;i++)  //checking3*3å®«å†…
 	{
 		for (int j = y_3;j < y_3 + 3;j++)
 		{
@@ -42,7 +43,7 @@ bool checking(int matrix[9][9],int value, int x, int y)
 }
 
 void DFS(int n)
-//¼ôÖ¦¡ª¡ª»ØËİ£¬µİ¹é½øĞĞÇó½âÊı¶À
+//å‰ªæâ€”â€”å›æº¯ï¼Œé€’å½’è¿›è¡Œæ±‚è§£æ•°ç‹¬
 {
 	if (n >= 81)
 	{
@@ -68,7 +69,7 @@ void DFS(int n)
 }
 
 void uDFS(int n) 
-//Èç¹ûÃ»ÓĞÎ¨Ò»½â£¬Ôò·µ»ØºÍµÚÒ»¸ö½â²»Ò»ÑùµÄ½â
+//å¦‚æœæ²¡æœ‰å”¯ä¸€è§£ï¼Œåˆ™è¿”å›å’Œç¬¬ä¸€ä¸ªè§£ä¸ä¸€æ ·çš„è§£
 {
 	if (n >= 81&&sign==0)
 	{
@@ -98,7 +99,7 @@ void uDFS(int n)
 }
 
 void unique(int problem_matrix[9][9]) {
-	//¶Ô²»ÊÇÎ¨Ò»½âµÄÊı¶À½øĞĞ¸üĞÂ£¬Ê¹Æä±äÎªÎ¨Ò»½â
+	//å¯¹ä¸æ˜¯å”¯ä¸€è§£çš„æ•°ç‹¬è¿›è¡Œæ›´æ–°ï¼Œä½¿å…¶å˜ä¸ºå”¯ä¸€è§£
 	for (int i = 0;i < 9;i++) {
 		for (int j = 0;j < 9;j++) {
 			matrix_2[i][j] = problem_matrix[i][j];
@@ -120,7 +121,7 @@ void unique(int problem_matrix[9][9]) {
 }
 
 void gen_unique(int n) {
-	//²úÉúÎ¨Ò»½âÊı¶À
+	//äº§ç”Ÿå”¯ä¸€è§£æ•°ç‹¬
 	generate_game(n, 55);
 	ifstream in;
 	ofstream out;
@@ -156,7 +157,7 @@ void gen_unique(int n) {
 }
 
 void init(int n) 
-//Éú³ÉÖÕÅÌÊı¶À
+//ç”Ÿæˆç»ˆç›˜æ•°ç‹¬
 {
 	//srand(time(0));
 	if (n >= 81)
@@ -184,8 +185,8 @@ void init(int n)
 }
 
 /***************************
-*		Éú³ÉÖÕÅÌÊı¶À
-*		´æÈëfinal.txt
+*		ç”Ÿæˆç»ˆç›˜æ•°ç‹¬
+*		å­˜å…¥final.txt
 ***************************/
 void generate_final(int num) {
 	int co = num;
@@ -206,11 +207,11 @@ void generate_final(int num) {
 		out << endl;
 		num--;
 	}
-	cout << "³É¹¦Éú³É" << co << "¸öÖÕÅÌÊı¶À£¡" << endl;
+	cout << "generate " << co << "final case successfully!" << endl;
 }
 
 void selectBlank(int nums, int matrix[9][9])
-//½øĞĞÍÚ¿Õ
+//è¿›è¡ŒæŒ–ç©º
 {
 	random_device rd;
 	mt19937  r_eng(rd());
@@ -230,11 +231,11 @@ void selectBlank(int nums, int matrix[9][9])
 }
 
 /***************************
-*		²úÉúÊı¶ÀÓÎÏ·
-*		´æÈëgame.txt
+*		äº§ç”Ÿæ•°ç‹¬æ¸¸æˆ
+*		å­˜å…¥game.txt
 ****************************/
 void generate_game(int n,int blank=20) {
-	//²úÉúÊı¶À
+	//äº§ç”Ÿæ•°ç‹¬
 	ifstream in;
 	in.open("final.txt");
 	ofstream out;
@@ -272,7 +273,7 @@ void generate_game(int n,int blank=20) {
 }
 
 void gen_difficulty(int n, int level) {
-	//¸ù¾İÄÑ¶È²úÉúÊı¶À
+	//æ ¹æ®éš¾åº¦äº§ç”Ÿæ•°ç‹¬
 	int blank;
 	random_device rd;
 	mt19937  r_eng(rd());
@@ -293,7 +294,7 @@ void gen_difficulty(int n, int level) {
 }
 
 void Solute(string file) {
-	//Çó½âÊı¶À
+	//æ±‚è§£æ•°ç‹¬
 	ifstream in;
 	in.open(file);
 	ofstream out;
@@ -326,71 +327,82 @@ void Solute(string file) {
 	}
 }
 
-
-int main()
+int main(int argc, char* argv[])
 {
-	cout << "Ö¸Áî½éÉÜ£º"<<endl;
-	cout << "-c\tÉú³ÉÖÕÅÌÊı¶À" << endl << "-s\tÇó½âÊı¶À" << endl << "-n\tÉú³ÉÊı¶ÀÓÎÏ·"<<endl;
-	cout << "-m\tÉú³ÉÓÎÏ·µÄÄÑ¶È" << endl << "-r\tÉú³ÉÓÎÏ·µÄÍÚ¿ÕÊıÁ¿" << endl << "-u\tÉú³ÉÎ¨Ò»½âµÄÓÎÏ·"<<endl;
-	cout << "ÇëÊäÈëÖ¸Áî:" << endl;
-	/***************************
-	*		Ö¸ÁîÊäÈë
-	*		ÓëÖ¸Áî½âÎö
-	***************************/
-	string a;
-	string instr[5];
-	int pos;
-	getline(cin, a);
-	int num = 0;
-	while (a.find(" ") < 20) {
-		pos = a.find(" ");
-		instr[num] = a.substr(0, pos);
-		a = a.substr(pos + 1, size(a));
-		num++;
-	}
-	instr[num] = a;
+	enum { Final, Solution, Gen_num, Gen_difficulty, Gen_blank, Gen_unique };
+	int op = -1;
+	int opt;
+
+	string file;
 	int operand1;
 	int operand2;
-	string file;
-	stringstream ss,ss2;
-	ss << instr[2];
-	ss >> operand1;
-	ss2 << instr[4];
-	ss2 >> operand2;
-	enum{Final,Solution,Gen_num,Gen_difficulty,Gen_blank,Gen_unique};
-	int op=-1;
-	if (instr[1] == "-c") op = 0;
-	else if (instr[1] == "-s") { op = 1;file = instr[2]; }
-	else if (instr[1] == "-n" && instr[3] == "")op = 2;
-	else if (instr[1] == "-n" && instr[3] == "-m")op = 3;
-	else if (instr[1] == "-n" && instr[3] == "-r")op = 4;
-	else if (instr[1] == "-n" && instr[3] == "-u")op = 5;
+
+	while ((opt = getopt(argc, argv, "c::s:n::m:ur:")) != -1)
+	{
+		switch (opt)
+		{
+
+		case 'c':
+			op=0;
+			operand1=atoi(optarg);
+			break;
+
+		case 's':
+            op = 1;
+			file = optarg;
+			break;
+
+		case 'n':
+			op=2;
+			operand1=atoi(optarg);
+			break;
+		case 'm':
+            op=3;
+			operand2=atoi(optarg);
+			break;
+		case 'r':
+	        op=4;
+			operand2=atoi(optarg);
+			break;
+		case 'u':
+			op=5;
+			break;
+		default:
+			cout << "instruction :"<<endl;
+			cout << "-c\tgenerate final shudo" << endl << "-s\tsolve the shudo" << endl << "-n\tgenerate shudo game"<<endl;
+			cout << "-m\tthe level of game" << endl << "-r\tthe blank in shudo" << endl << "-u\tgenerate unique shudo"<<endl;
+			cout << "please enter the instruction:" << endl;
+			break;
+		}
 	switch (op) {
 	case Final:
 		generate_final(operand1);
 		break;
 	case Solution:
 		Solute(file);
-		cout << "ÒÑ¾­¶Ô" << file << "ÖĞµÄÎÄ¼ş½øĞĞÇó½â£¬½á¹û´æ·ÅÔÚsudoku.txtÖĞ";
+		cout << "have solved the shudo in " << file << ",and the result is saved in sudoku.txt";
 		break;
 	case Gen_num:
 		generate_game(operand1);
-		cout << "Éú³ÉÁË" << operand1 << "¸öÊı¶ÀÓÎÏ·,ÍÚ¿ÕÊıÎª" << 20 << endl;
+		cout << "generate " << operand1 << "shudo,in which the blank is " << 20 << endl;
 		break;
 	case Gen_difficulty:
 		gen_difficulty(operand1, operand2);
-		cout << "Éú³ÉÁË" << operand1 << "¸öÊı¶ÀÓÎÏ·,ÄÑ¶ÈÎª" << operand2 << endl;
+		cout << "generate " << operand1 << "shudo,level is " << operand2 << endl;
 		break;
 	case Gen_blank:
 		generate_game(operand1, operand2);
-		cout << "Éú³ÉÁË" << operand1 << "¸öÊı¶ÀÓÎÏ·,ÍÚ¿ÕÊıÎª" << operand2 << endl;
+		cout << "generate " << operand1 << "shudo,in which blank is " << operand2 << endl;
 		break;
 	case Gen_unique:
 		gen_unique(operand1);
-		cout << "Éú³ÉÁË" << operand1 << "¸ö¾ßÓĞÎ¨Ò»½âµÄÊı¶ÀÓÎÏ·£¬½á¹û´æ·ÅÔÚunique_game.txtÖĞ"<< endl;
+		cout << "generate " << operand1 << "shudo which has a unique solution,the result is saved in unique_game.txt"<< endl;
 		break;
 	default:
-		cout << "ÇëÊäÈëÕıÈ·µÄÖ¸Áî£¡";
+		cout << "please enter the correct instruction!";
 		exit(0);
 	}
+
+	}
+	return 0;
 }

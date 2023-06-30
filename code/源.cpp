@@ -339,29 +339,56 @@ int main(int argc, char* argv[])
 
 	while ((opt = getopt(argc, argv, "c::s:n::m:ur:")) != -1)
 	{
+		//cout<<argv[0]<<endl<<argv[1]<<endl<<argv[2]<<endl;
 		switch (opt)
 		{
 
 		case 'c':
 			op=0;
+			if(*optarg!='$'){
+				cout<<"error!";
+				exit(0);
+			}
+			optarg=optarg+1;
+			cout<<optarg<<endl;
 			operand1=atoi(optarg);
 			break;
 
 		case 's':
             op = 1;
+			if(*optarg!='$'){
+				cout<<"error!";
+				exit(0);
+			}
+			optarg=optarg+1;
 			file = optarg;
 			break;
 
 		case 'n':
 			op=2;
+			if(*optarg!='$'){
+				cout<<"error!";
+				exit(0);
+			}
+			optarg=optarg+1;
 			operand1=atoi(optarg);
 			break;
 		case 'm':
             op=3;
+			if(*optarg!='$'){
+				cout<<"error!";
+				exit(0);
+			}
+			optarg=optarg+1;
 			operand2=atoi(optarg);
 			break;
 		case 'r':
 	        op=4;
+			if(*optarg!='$'){
+				cout<<"error!";
+				exit(0);
+			}
+			optarg=optarg+1;
 			operand2=atoi(optarg);
 			break;
 		case 'u':
